@@ -1,4 +1,11 @@
 {
-  "public_dir": "./",
-  "output_dir": "./"
+  "rewrites": [
+    {
+      "source": ".*",
+      "destination": "/index.html"
+    }
+  ],
+  "redirects": [],
+  "basic": [],
+  "ip_restrictions": []
 }
