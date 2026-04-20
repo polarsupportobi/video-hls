@@ -1,16 +1,22 @@
 name: Build and deploy to KurocoFront
-
+name: Build and deploy to Kuroco front
 on:
   push:
-    branches:
-      - main
-
+    branches: [ main ]
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
       - name: Deploy to KurocoFront
-        run: |
-          echo "Deploying to KurocoFront..."
+        uses: kurocoapp/kurocofront-deploy-action@v1
+        with:
+          target_dir: './out' # Next.js 静态导出目录
+          domain: ${{ secrets.KUROCO_FRONT_DOMAIN }}
+          api_key: ${{ secrets.KUROCO_API_KEY }}
